@@ -9,6 +9,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [4.0.3] - 2023-05-07
+
+### Changed
+- solve deprecation warnings
+
+
+## [4.0.2] - 2023-02-16
+
+### Fixed
+- `Path.of("non-existing-file").exists()` always returns `true` on Hashlink because of https://github.com/HaxeFoundation/haxe/issues/10970
+
+
+## [4.0.1] - 2023-01-14
+
+### Fixed
+- Lua support
+- [#13](https://github.com/vegardit/haxe-files/pull/13) File.writeString fails with Flash/AIR (thanks to [Tahir](https://github.com/TheWorldMachinima))
+
+
+## [4.0.0] - 2022-05-06
+
+### Fixed
+- [#10](https://github.com/vegardit/haxe-files/pull/10) Windows/MacOS platform detection (thanks to [redchew](https://github.com/redchew))
+
+### Changed
+- minimum required Haxe version is now 4.2
+
+
 ## [3.0.0] - 2021-08-07
 
 ### Fixed

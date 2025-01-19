@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016-2021 Vegard IT GmbH (https://vegardit.com) and contributors.
+ * SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com) and contributors
+ * SPDX-FileContributor: Sebastian Thomschke, Vegard IT GmbH
  * SPDX-License-Identifier: Apache-2.0
  */
 package hx.files.watcher;
@@ -13,9 +14,6 @@ import hx.strings.internal.Either2;
 
 #if (filesystem_support || macro)
 
-/**
- * @author Sebastian Thomschke, Vegard IT GmbH
- */
 interface FileWatcher extends EventListenable<FileSystemEvent> extends Service<Int> {
 
    function watch(path:Either2<Path, String>):Void;
@@ -65,7 +63,7 @@ class DirAttrs {
       #end
    }
 
-   inline
+   inline //
    public function new(mtime:Float, uid:Int, gid:Int, mode:Int) {
       this.mtime = mtime;
       this.uid = uid;
@@ -73,7 +71,7 @@ class DirAttrs {
       this.mode = mode;
    }
 
-   inline
+   inline //
    public function equals(attrs:DirAttrs):Bool {
       return attrs.mtime == mtime && attrs.uid  == uid && attrs.gid  == gid && attrs.mode == mode;
    }
@@ -99,7 +97,8 @@ class FileAttrs {
       #end
    }
 
-   inline
+
+   inline //
    public function new(mtime:Float, uid:Int, gid:Int, mode:Int, size:Int) {
       this.mtime = mtime;
       this.uid = uid;
@@ -108,7 +107,8 @@ class FileAttrs {
       this.size = size;
    }
 
-   inline
+
+   inline //
    public function equals(attrs:FileAttrs):Bool
       return attrs.mtime == mtime && attrs.size == size && attrs.uid  == uid && attrs.gid  == gid && attrs.mode == mode;
 }

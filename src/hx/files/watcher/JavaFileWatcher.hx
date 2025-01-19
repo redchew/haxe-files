@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016-2021 Vegard IT GmbH (https://vegardit.com) and contributors.
+ * SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com) and contributors
+ * SPDX-FileContributor: Sebastian Thomschke, Vegard IT GmbH
  * SPDX-License-Identifier: Apache-2.0
  */
 package hx.files.watcher;
@@ -35,8 +36,6 @@ typedef JPath = hx.files.internal.externs.java.nio.file.Path;
  * b) The directory to watch must exist.
  * c) Recursive watching (sub-directories) only works on Windows. See https://stackoverflow.com/questions/18701242/how-to-watch-a-folder-and-subfolders-for-changes
  * d) Does not support MacOS
- *
- * @author Sebastian Thomschke, Vegard IT GmbH
  */
 class JavaFileWatcher extends AbstractFileWatcher {
 
@@ -62,7 +61,7 @@ class JavaFileWatcher extends AbstractFileWatcher {
    }
 
 
-   override
+   override //
    public function onStart():Void {
       watchService = FileSystems.getDefault().newWatchService();
 
@@ -75,7 +74,7 @@ class JavaFileWatcher extends AbstractFileWatcher {
    }
 
 
-   override
+   override //
    public function onStop():Void {
       @:nullSafety(Off)
       watchService.close();
@@ -125,7 +124,7 @@ class JavaFileWatcher extends AbstractFileWatcher {
    /**
      * @param path must point to an existing directory
      */
-   override
+   override //
    public function watch(path:Either2<Path, String>):Void {
       if (path == null)
          throw "[path] must not be null";
@@ -165,14 +164,14 @@ class JavaFileWatcher extends AbstractFileWatcher {
    }
 
 
-   override
+   override //
    public function unwatch(path:Either2<Path, String>):Void {
       if (path == null)
          return;
 
       watchedSync.execute(function() {
          final pathStr = (
-            switch(path.value) {
+            switch (path.value) {
                case a(obj): obj;
                case b(str): Path.of(str);
             }
@@ -198,7 +197,7 @@ private final class WatchEntry {
    public final path:Path;
    public var watchKey:WatchKey;
 
-   inline
+   inline //
    public function new(jpath:JPath, path:Path, watchKey:WatchKey) {
       this.jpath = jpath;
       this.path = path;

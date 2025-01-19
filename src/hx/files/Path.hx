@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016-2021 Vegard IT GmbH (https://vegardit.com) and contributors.
+ * SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com) and contributors
+ * SPDX-FileContributor: Sebastian Thomschke, Vegard IT GmbH
  * SPDX-License-Identifier: Apache-2.0
  */
 package hx.files;
@@ -12,12 +13,8 @@ import hx.strings.internal.Either2;
 
 using hx.strings.Strings;
 
-/**
- * @author Sebastian Thomschke, Vegard IT GmbH
- */
 @immutable
-#if (haxe_ver >= 4.2) abstract #end
-class Path {
+abstract class Path {
 
    /**
     * Constructs a path object compatible with for the local filesystem.
@@ -53,7 +50,7 @@ class Path {
     *
     * @param trimWhiteSpaces controls if leading/trailing whitespaces of path elements shall be removed automatically
     */
-   inline
+   inline //
    public static function unix(path:String, trimWhiteSpaces = true):UnixPath
        return UnixPath.of(path, trimWhiteSpaces);
 
@@ -90,7 +87,7 @@ class Path {
     *
     * @param trimWhiteSpaces controls if leading/trailing whitespaces of path elements shall be removed automatically
     */
-   inline
+   inline //
    public static function win(path:String, trimWhiteSpaces = true):WindowsPath
       return WindowsPath.of(path, trimWhiteSpaces);
 
@@ -257,9 +254,15 @@ class Path {
          php.Syntax.code("clearstatcache({0})", path);
       #end
 
-      #if lua
-         // workaround for https://github.com/HaxeFoundation/haxe/issues/6946
-         return lua.lib.luv.fs.FileSystem.stat(path).result != null;
+      #if hl
+         if (OS.isMacOS) { // workaround for https://github.com/HaxeFoundation/haxe/issues/10970
+            try { 
+               sys.FileSystem.stat(path);
+               return true;
+            } catch (e) 
+               return false;
+         }
+         return sys.FileSystem.exists(path);
       #elseif (sys || macro || nodejs)
          return sys.FileSystem.exists(path);
       #elseif phantomjs
@@ -416,7 +419,7 @@ class Path {
      *
      * @return null if no filesystem object exists on the path
      */
-   inline
+   inline //
    public function stat():Null<sys.FileStat> {
       if (!exists())
          return null;
@@ -723,12 +726,12 @@ class Path {
    function get_root():Null<Path> throw "Not implemented";
 
 
-   inline
+   inline //
    public function toDir():Dir
       return Dir.of(this);
 
 
-   inline
+   inline //
    public function toFile():File
       return File.of(this);
 
@@ -1013,7 +1016,7 @@ class UnixPath extends Path {
       isWindows = false;
    }
 
-   override
+   override //
    function get_root():Null<Path> {
       var p:Null<Path> = this;
       while (p != null) {
@@ -1025,12 +1028,12 @@ class UnixPath extends Path {
    }
 
 
-   override
+   override //
    function newPathForString(path:String, trimWhiteSpaces:Bool):Path
       return of(path, trimWhiteSpaces);
 
 
-   override
+   override //
    function newPathForChild(filename:String):Path
       return new UnixPath(this, filename);
 }
@@ -1167,7 +1170,8 @@ class WindowsPath extends Path {
                final part3 = cleaned[2];
                if (part3.length == 2 && part3.charCodeAt8(0).isAsciiAlpha() && part3.charCodeAt8(1) == Char.COLON) {
 
-                  cleaned.shift(); cleaned.shift();
+                  cleaned.shift();
+                  cleaned.shift();
 
                   // set drive letter to upper case
                   cleaned[0] = part3.charAt8(0).toUpperCase() + Char.COLON + DIR_SEP;
@@ -1182,9 +1186,9 @@ class WindowsPath extends Path {
          }
       } else {
             final part1 = cleaned[0];
-            if (part1.length == 2 &&
-               part1.charCodeAt8(0).isAsciiAlpha() &&
-               part1.charCodeAt8(1) == Char.COLON
+            if (part1.length == 2 //
+               && part1.charCodeAt8(0).isAsciiAlpha() //
+               && part1.charCodeAt8(1) == Char.COLON
             )
                // set drive letter to upper case
                cleaned[0] = part1.charAt8(0).toUpperCase() + Char.COLON + DIR_SEP;
@@ -1205,7 +1209,7 @@ class WindowsPath extends Path {
    }
 
 
-   override
+   override //
    function get_root():Null<Path> {
       var p:Null<Path> = this;
       while (p != null) {
@@ -1217,12 +1221,12 @@ class WindowsPath extends Path {
    }
 
 
-   override
+   override //
    function newPathForString(path:String, trimWhiteSpaces:Bool):Path
       return of(path, trimWhiteSpaces);
 
 
-   override
+   override //
    function newPathForChild(filename:String):Path
       return new WindowsPath(this, filename);
 }

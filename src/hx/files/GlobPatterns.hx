@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016-2021 Vegard IT GmbH (https://vegardit.com) and contributors.
+ * SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com) and contributors
+ * SPDX-FileContributor: Sebastian Thomschke, Vegard IT GmbH
  * SPDX-License-Identifier: Apache-2.0
  */
 package hx.files;
@@ -15,8 +16,6 @@ using hx.strings.Strings;
  * Utility class to convert glob patterns to regex patterns.
  *
  * See https://en.wikipedia.org/wiki/Glob_(programming)
- *
- * @author Sebastian Thomschke, Vegard IT GmbH
  */
 class GlobPatterns {
 
@@ -41,7 +40,7 @@ class GlobPatterns {
     *
     * @return an EReg object
     */
-   inline
+   inline //
    public static function toEReg(globPattern:String, regexOptions:String = ""):EReg
       return toRegEx(globPattern).toEReg(regexOptions);
 
@@ -69,7 +68,7 @@ class GlobPatterns {
     * @return a hx.strings.Pattern object
     */
    @:nullSafety(Off) // workaround false positive
-   inline
+   inline //
    public static function toPattern(globPattern:String, ?options:Either3<String, MatchingOption, Array<MatchingOption>>):Pattern
       return toRegEx(globPattern).toPattern(options);
 
@@ -103,7 +102,7 @@ class GlobPatterns {
       var chPrev:Char = -1;
       var groupDepth = 0;
       var idx = -1;
-      while(idx < charsLenMinus1) {
+      while (idx < charsLenMinus1) {
          idx++;
          var ch = chars[idx];
 
@@ -147,14 +146,14 @@ class GlobPatterns {
                }
             case Char.COMMA:
                if (chPrev == Char.BACKSLASH)
-                   sb.add("\\,"); // "\," => "\,"
+                  sb.add("\\,"); // "\," => "\,"
                else {
                   // "," => "|" if in group or => "," if not in group
                   sb.addChar(groupDepth > 0 ? Char.PIPE : Char.COMMA);
                }
             case Char.EXCLAMATION_MARK:
                if (chPrev == Char.BRACKET_SQUARE_LEFT)
-                  sb.addChar(Char.CARET);  // "[!" => "[^"
+                  sb.addChar(Char.CARET); // "[!" => "[^"
                else
                   sb.addChar(ch);
             case Char.ASTERISK:
@@ -168,7 +167,7 @@ class GlobPatterns {
                         // "**/" => "(.*[\/\\])?"
                         sb.add("(.*[\\/\\\\])?");
                         idx += 2;
-                         ch = Char.SLASH;
+                        ch = Char.SLASH;
                      }
                   } else {
                      sb.add(".*"); // "**" => ".*"

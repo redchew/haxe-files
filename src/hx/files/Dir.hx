@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2016-2021 Vegard IT GmbH (https://vegardit.com) and contributors.
+ * SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com) and contributors
+ * SPDX-FileContributor: Sebastian Thomschke, Vegard IT GmbH
  * SPDX-License-Identifier: Apache-2.0
  */
 package hx.files;
@@ -22,8 +23,6 @@ using hx.strings.Strings;
 
 /**
  * Represents a directory.
- *
- * @author Sebastian Thomschke, Vegard IT GmbH
  */
 class Dir {
 
@@ -110,10 +109,11 @@ class Dir {
    public final path:Path;
 
 
-   inline
+   inline //
    function new(path:Path) {
       this.path = path;
    }
+
 
    #if (filesystem_support || macro)
 
@@ -151,7 +151,7 @@ class Dir {
       #if lua
          // workaround for https://github.com/HaxeFoundation/haxe/issues/6946
          final parts = [ path ];
-         final _p = path;
+         var _p = path;
          while ((_p = _p.parent) != null) {
             if (_p.isRoot)
                break;
@@ -318,8 +318,8 @@ class Dir {
       #elseif (sys || nodejs)
          final dirs:Array<Dir> = [];
          walk(
-            function(file) file.delete(),
-            function(dir) { dirs.push(dir); return true; }
+            file -> file.delete(),
+            dir  -> { dirs.push(dir); return true; }
          );
          dirs.reverse();
          dirs.push(this);
@@ -381,7 +381,7 @@ class Dir {
     */
    public function findDirs(globPattern:String):Array<Dir> {
       final dirs = new Array<Dir>();
-      find(globPattern, null, function(dir) dirs.push(dir));
+      find(globPattern, null, dir -> dirs.push(dir));
       return dirs;
    }
 
@@ -401,7 +401,7 @@ class Dir {
     */
    public function findFiles(globPattern:String):Array<File> {
       final files = new Array<File>();
-      find(globPattern, function(file) files.push(file), null);
+      find(globPattern, file -> files.push(file), null);
       return files;
    }
 
@@ -626,15 +626,15 @@ class Dir {
 
    /**
     * <pre><code>
-    * >>> Dir.of("." ).walk(function (file) {}, function (dir) return true) throws nothing
-    * >>> Dir.of("." ).walk(function (file) {})                             throws nothing
-    * >>> Dir.of("." ).walk(null)                                           throws nothing
+    * >>> Dir.of("." ).walk(file -> {}, dir -> true) throws nothing
+    * >>> Dir.of("." ).walk(file -> {})              throws nothing
+    * >>> Dir.of("." ).walk(null)                    throws nothing
     * </code></pre>
     *
     * @param onFile callback function that is invoked on each found file
     * @param onDir callback function that is invoked on each found directory, if returns false, traversing stops
     */
-   public function walk(onFile:Null<File -> Void>, ?onDir:Dir -> Bool):Void {
+   public function walk(onFile:Null<File->Void>, ?onDir:Dir->Bool):Void {
       var nodes:Array<Path> = list();
       while (nodes.length > 0) {
          @:nullSafety(Off)
@@ -652,7 +652,7 @@ class Dir {
 
    #end // filesystem_support
 
-   inline
+   inline //
    public function toString():String
       return path.toStringWithTrailingSeparator();
 }

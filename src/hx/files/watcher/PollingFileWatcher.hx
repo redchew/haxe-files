@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2016-2021 Vegard IT GmbH (https://vegardit.com) and contributors.
+ * SPDX-FileCopyrightText: © Vegard IT GmbH (https://vegardit.com) and contributors
+ * SPDX-FileContributor: Sebastian Thomschke, Vegard IT GmbH
  * SPDX-License-Identifier: Apache-2.0
  */
 package hx.files.watcher;
 
 import hx.concurrent.executor.Executor;
-import hx.concurrent.executor.Schedule;
 import hx.concurrent.lock.RLock;
 import hx.files.watcher.FileWatcher;
 import hx.strings.collection.SortedStringMap;
@@ -15,9 +15,6 @@ import hx.strings.internal.Either2;
 
 #if (filesystem_support || macro)
 
-/**
- * @author Sebastian Thomschke, Vegard IT GmbH
- */
 class PollingFileWatcher extends AbstractFileWatcher {
 
    final intervalMS:Int;
@@ -44,13 +41,13 @@ class PollingFileWatcher extends AbstractFileWatcher {
    }
 
 
-   override
+   override //
    public function onStart():Void {
       scanTask = executor.submit(this.scanAll, Schedule.FIXED_DELAY(intervalMS, 0));
    }
 
 
-   override
+   override //
    public function onStop():Void {
       @:nullSafety(Off)
       scanTask.cancel();
@@ -58,7 +55,7 @@ class PollingFileWatcher extends AbstractFileWatcher {
    }
 
 
-   override
+   override //
    public function watch(path:Either2<Path, String>):Void {
       if (path == null)
          throw "[path] must not be null";
@@ -82,14 +79,14 @@ class PollingFileWatcher extends AbstractFileWatcher {
    }
 
 
-   override
+   override //
    public function unwatch(path:Either2<Path, String>):Void {
       if (path == null)
          return;
 
       watchedSync.execute(function() {
          final pathStr = (
-            switch(path.value) {
+            switch (path.value) {
                case a(obj): obj;
                case b(str): Path.of(str);
             }
@@ -102,9 +99,7 @@ class PollingFileWatcher extends AbstractFileWatcher {
 
 
    private function scanAll():Void {
-      final paths:StringArray = watchedSync.execute(function() {
-         return [ for (k in watched.keys()) k ];
-      });
+      final paths:StringArray = watchedSync.execute(() -> [ for (k in watched.keys()) k ]);
 
       for (path in paths) {
          watchedSync.execute(function() {
@@ -297,7 +292,7 @@ class PollingFileWatcher extends AbstractFileWatcher {
    }
 
 
-   inline
+   inline //
    private function createFSEntry_FILE(file:File):FSEntry
       return file.path.exists()
          ? FSEntry.FILE(file, FileAttrs.fromFile(file))

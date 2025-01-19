@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/vegardit/haxe-files/workflows/Build/badge.svg "GitHub Actions")](https://github.com/vegardit/haxe-files/actions?query=workflow%3A%22Build%22)
 [![Release](https://img.shields.io/github/release/vegardit/haxe-files.svg)](http://lib.haxe.org/p/haxe-files)
 [![License](https://img.shields.io/github/license/vegardit/haxe-files.svg?label=license)](#license)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.1%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 1. [What is it?](#what-is-it)
 1. [The `Path` class](#path-class)
@@ -32,10 +32,11 @@ Java, JavaScript ([Node.js](https://nodejs.org) and PhantomJS), Lua, [Neko](http
 
 ### Haxe compatiblity
 
-|haxe-strings    |Haxe           |
+|haxe-files      |Haxe           |
 |----------------|---------------|
 |1.0.0 to 1.2.1  |3.4.2 or higher|
 |2.0.0 or higher |4.0.5 or higher|
+|4.0.0 or higher |4.2.0 or higher|
 
 
 ## <a name="path-class"></a>The `Path` class
@@ -92,7 +93,7 @@ class MyClass {
 
 ## <a name="file-class"></a>The `File` class
 
-Instances of the [hx.files.File](https://github.com/vegardit/haxe-files/blob/master/src/hx/files/File.hx)  class represent regular files on the local file system.
+Instances of the [hx.files.File](https://github.com/vegardit/haxe-files/blob/main/src/hx/files/File.hx)  class represent regular files on the local file system.
 
 ```haxe
 package com.example;
@@ -127,7 +128,7 @@ class MyClass {
 
 ## <a name="dir-class"></a>The `Dir` class
 
-Instances of the [hx.files.Dir](https://github.com/vegardit/haxe-files/blob/master/src/hx/files/Dir.hx)  class represent directories on the local file system.
+Instances of the [hx.files.Dir](https://github.com/vegardit/haxe-files/blob/main/src/hx/files/Dir.hx)  class represent directories on the local file system.
 
 ```haxe
 package com.example;
@@ -171,7 +172,7 @@ class MyClass {
 
 ## <a name="globpatterns-class"></a>The `GlobPatterns` class
 
-The [hx.files.GlobPatterns](https://github.com/vegardit/haxe-files/blob/master/src/hx/files/GlobPatterns.hx) class contains static methods to convert
+The [hx.files.GlobPatterns](https://github.com/vegardit/haxe-files/blob/main/src/hx/files/GlobPatterns.hx) class contains static methods to convert
 [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)) into regular expressions.
 
 ```haxe
@@ -199,13 +200,13 @@ class MyClass {
 
 ## <a name="file-watching"></a>File watching
 
-Implementations of the [hx.files.watcher.FileWatcher](https://github.com/vegardit/haxe-files/blob/master/src/hx/files/watcher/FileWatcher.hx)
+Implementations of the [hx.files.watcher.FileWatcher](https://github.com/vegardit/haxe-files/blob/main/src/hx/files/watcher/FileWatcher.hx)
 interface allow you to monitor the file system for create/delete/change events.
 
-The [hx.files.watcher.PollingFileWatcher](https://github.com/vegardit/haxe-files/blob/master/src/hx/files/watcher/PollingFileWatcher.hx) class
+The [hx.files.watcher.PollingFileWatcher](https://github.com/vegardit/haxe-files/blob/main/src/hx/files/watcher/PollingFileWatcher.hx) class
 scans the file system in intervals to recursively determine file changes. This is a rather inefficient way but works cross-target.
 
-With Java7 or higher the [hx.files.watcher.JavaFileWatcher](https://github.com/vegardit/haxe-files/blob/master/src/hx/files/watcher/JavaFileWatcher.hx)
+With Java7 or higher the [hx.files.watcher.JavaFileWatcher](https://github.com/vegardit/haxe-files/blob/main/src/hx/files/watcher/JavaFileWatcher.hx)
 based on [WatcherService](https://docs.oracle.com/javase/7/docs/api/java/nio/file/WatchService.html) is available.
 It is more efficient but has some limitations as documented in the source code.
 
@@ -250,6 +251,8 @@ class MyClass {
    }
 }
 ```
+
+
 ## <a name="installation"></a>Installation
 
 1. install the library via haxelib using the command:
@@ -268,31 +271,19 @@ class MyClass {
 ### Using `haxelib git`
 
 ```
-haxelib git haxe-files https://github.com/vegardit/haxe-files master D:\haxe-projects\haxe-files
+haxelib git haxe-files https://github.com/vegardit/haxe-files main D:\haxe-projects\haxe-files
 ```
 
 ###  Using Git
 
-1. check-out the master branch
+1. check-out the main branch
     ```
-    git clone https://github.com/vegardit/haxe-files --branch master --single-branch D:\haxe-projects\haxe-files
+    git clone https://github.com/vegardit/haxe-files --branch main --single-branch D:\haxe-projects\haxe-files
     ```
 
 2. register the development release with haxe
     ```
     haxelib dev haxe-doctest D:\haxe-projects\haxe-files
-    ```
-
-###  Using Subversion
-
-1. check-out the trunk
-    ```
-    svn checkout https://github.com/vegardit/haxe-files/trunk D:\haxe-projects\haxe-files
-    ```
-
-2. register the development release with haxe
-    ```
-    haxelib dev haxe-files D:\haxe-projects\haxe-files
     ```
 
 
